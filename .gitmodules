@@ -1,0 +1,3 @@
+[submodule "external/fastoml"]
+	path = external/fastoml
+	url = https://github.com/EldoDebug/fastoml.git

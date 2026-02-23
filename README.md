@@ -15,7 +15,7 @@ A modern C++23 wrapper for [fastoml](https://github.com/EldoDebug/fastoml) — a
 - C++23
 - CMake 3.24+
 
-The underlying `fastoml` C library is fetched automatically via CMake FetchContent.
+The underlying `fastoml` C library is tracked as a git submodule at `external/fastoml`.
 
 ## Integration
 
@@ -28,11 +28,14 @@ FetchContent_Declare(
   fastoml_cpp
   GIT_REPOSITORY https://github.com/EldoDebug/fastoml-cpp.git
   GIT_TAG main
+  GIT_SUBMODULES_RECURSE TRUE
 )
 FetchContent_MakeAvailable(fastoml_cpp)
 
 target_link_libraries(your_target PRIVATE fastoml-cpp::fastoml-cpp)
 ```
+
+If you use `SOURCE_DIR` instead of `GIT_REPOSITORY`, ensure `external/fastoml` is initialized in that source tree.
 
 ## Quick Start
 
@@ -213,6 +216,12 @@ All fallible operations return `Fastoml::Result<T>` (`std::expected<T, Fastoml::
 
 ## Building
 
+If you clone this repository directly, initialize submodules first:
+
+```bash
+git submodule update --init --recursive
+```
+
 ```bash
 cmake -B build -G Ninja
 cmake --build build
@@ -221,7 +230,7 @@ cmake --build build
 To disable building examples:
 
 ```bash
-cmake -B build -G Ninja -Dfastoml_cpp_BUILD_EXAMPLES=OFF
+cmake -B build -G Ninja -DFASTOML_CPP_BUILD_EXAMPLES=OFF
 ```
 
 

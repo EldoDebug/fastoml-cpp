@@ -12,17 +12,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(FASTOML_CPP_BUILD_EXAMPLES "Build fastoml-cpp examples" ON)
 
-include(FetchContent)
+set(FASTOML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/fastoml")
+if(NOT EXISTS "${FASTOML_DIR}/CMakeLists.txt")
+  message(FATAL_ERROR "fastoml submodule is missing. Run: git submodule update --init --recursive")
+endif()
 
 set(FASTOML_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(FASTOML_BENCH OFF CACHE BOOL "" FORCE)
-
-FetchContent_Declare(
-  fastoml
-  GIT_REPOSITORY https://github.com/EldoDebug/fastoml.git
-  GIT_TAG 0a6c7d767b529afc7bc21f70fc9d0724d8b750cf
-)
-FetchContent_MakeAvailable(fastoml)
+add_subdirectory("${FASTOML_DIR}")
 
 file(
   GLOB FASTOML_CPP_HEADERS
